@@ -1,37 +1,32 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
-
-// import Minesweeper.Minesweeper.MineTile;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader; 
 
 public class Hangman {
-    private class MineTile extends JButton {
-        int r;
-        int c;
 
-        public MineTile(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
     int tilesize = 64;
-    int rows = 1;
-    int collumns = 8;
     int boardDimension = 8*tilesize;
 
     JFrame frame = new JFrame("Minesweeper"); //creates a new window
     JLabel textLabel = new JLabel();
     JPanel textPanel = new JPanel();
     JPanel BoardPanel = new JPanel();
+    FileReader fr;
 
-    MineTile[][] board = new MineTile[rows][collumns];
-    ArrayList<MineTile> mineList;
     Hangman(){
+        try{
+        FileReader fr = new FileReader("C:\\Users\\mzoltan\\Documents\\GitHub\\java\\minesweep\\src\\words.txt");
+    } catch (FileNotFoundException ex){
+        ex.printStackTrace();
+    }
+        BufferedReader br = new BufferedReader(fr);
+
+
         frame.setSize(boardDimension, boardDimension);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -51,39 +46,8 @@ public class Hangman {
         frame.add(BoardPanel);
         JTextField field = new JTextField(10);
         frame.add(field, BorderLayout.SOUTH);
-        for(int r=0; r < rows; r++){
-            for(int c=0; c < collumns; c++) {
-                MineTile tile = new MineTile(r, c);
-                board[r][c] = tile;
-
-                tile.setFocusable(false);
-                tile.setMargin(new Insets(0, 0, 0, 0));
-                tile.setFont(new Font("Comic Sans Unicode MS", Font.PLAIN, 45));
-                tile.addMouseListener((new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e){
-                        MineTile tile = (MineTile) e.getSource();
-
-                        if (e.getButton() == MouseEvent.BUTTON1){
-                            if (tile.getText() == "") {
-                                //if(mineList.contains(tile)){
-                                    //revealMines();+
-                               // }
-                            }
-                        }
-                    }
-                }));
-                tile.setPreferredSize(new Dimension(32,32));
-                BoardPanel.add(tile);
-            }
-        }
         frame.setVisible(true);
-
-        setMines();
-    }
-
-    void setMines() {
-        mineList = new ArrayList<MineTile>();
+        
     }
 }
 
